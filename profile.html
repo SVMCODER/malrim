@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>ʀΛօɴ</title>
+  <title>ᴍᴀʟʀɪᴍ</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="CSS/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.min.js"></script>
@@ -22,17 +22,13 @@
       <i class='bx bx-user' ></i>
       <p></p>
     </div>
-    <div class="tab" onclick="settings()">
-      <i class='bx bx-cog' ></i>
-      <p></p>
-    </div>
   </div>
   <div class="head">
     <h3 style="color: white;margin-left: 5px;">ᴍᴀʟʀɪᴍ</h3>
     <h3 id="time" align="center" style="color: rgb(241, 237, 0)"></h3>
     <h3 class="right">
-      <i class="bx bxs-heart"></i>
-      <i class="bx bxs-moon" style="color: yellow"></i>
+      <i class="bx bxs-heart" onclick="heart()" id="heart"></i>
+<i class="bx bxs-moon" id="moon" onclick="moon()"></i>
     </h3>
   </div>
   <br><br><br>
@@ -40,19 +36,26 @@
     <div class="container" align="center">
       <div class="profile-card">
         <h3>PROFILE</h3>
-        <img class="profile-picture" id="profile-picture" src="" >
-        <h4 id="user-name"></h4>
+        <div class="profilepic">
+          <img class="profile-picture" id="profile-picture" src="" >
+          
+        </div>
         
-        <button id="editProfileBtn" class="bx bx-edit"> Edit</button>
+        <div class="d" id="infoo" style="display: flex;" align="center">
+          
+        </div>
+        <h4 id="role"></h4>
         <h3>ABOUT THIS ACCOUNT</h3>
         <div class="shipping-card">
           
           <h4 id="bio" align="center">Loading...</h4><hr>
-          <h4 id="user-email"></h4><hr>
+          <h4 id="user-email" style="display: none;"></h4>
           <h4 id="cd" align="center">Joined on</h4>
           
         </div> <br>
-        <button id="editShippingBtn" class="bx bx-edit"> Edit</button>
+        <button id="editbtn" class="bx bx-edit" style="display: none;"> Name & Image</button>
+        <button id="editShippingBtn" class="bx bx-edit"> Bio</button> <br><br>
+        <button onclick="logout()" class="bx bx-log-out" style="background-color: red;"> Logout</button>
       </div>
       
     </div>
@@ -66,13 +69,50 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
   <script src="JS/nav.js"></script>
-  <br><br><br>
+  <br><br><br><br>
   <style>
+    #role {
+      color: rgb(209, 159, 255);
+    }
+    i {
+      margin-right: 5px;
+      margin-left: 5px;
+    }
+    #tickk {
+      background-color: rgb(0, 110, 255);
+      font-size: 18px;
+      border: 1px dashed white;
+      border-radius: 100%;
+      padding: 2px 2px;
+
+    }
+    .profilepic {
+      background-color: #0e0033;
+      border: 3px solid rgb(89, 0, 255);
+      border-radius: 100%;
+      height: 200px;
+      width: 200px;
+      
+    }
+    .profilepic img {
+      background-color: #0e0033;
+      object-fit: cover;
+      height: 200px;
+      width: 200px;
+      border-radius: 100%;
+    }
+    .d {
+      display: flex;
+      justify-content: space-around;
+      font-size: 18px;
+    }
     hr {
-      border: 1px solid rgb(0, 4, 88);
+      border: 1px solid rgb(0, 13, 255);
     }
     #user-name {
+      margin-right: 5px;
       font-size: 18px;
+      
     }
     .shipping-card {
       border: 1px solid rgb(0, 10, 104);
@@ -99,7 +139,7 @@
   justify-content: center;
 }
 .container {
-  width: auto;
+  width: 90%
 }
 .spinner {
   border: 4px solid rgba(255, 255, 255, 0.3);
