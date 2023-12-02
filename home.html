@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ᴍᴀʟʀɪᴍ</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="CSS/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <div class="tab-nav-container">
+    <div class="tab active purple">
+      <i class='bx bxs-chat'></i>
+      <p></p>
+    </div>
+    
+    <div class="tab" onclick="profile()">
+      <i class='bx bx-user' ></i>
+      <p></p>
+    </div>
+  </div>
+  <div class="head">
+    <h3 style="color: white;margin-left: 5px;">ᴍᴀʟʀɪᴍ</h3>
+    <h3 id="time" align="center" style="color: rgb(241, 237, 0)"></h3>
+    <h3 class="right">
+      <i class="bx bxs-heart" onclick="heart()" id="heart"></i>
+<i class="bx bxs-moon" id="moon" onclick="moon()"></i>
+    </h3>
+  </div>
+  <br><br><br> <br>
+    <div class="aa" align="center"> 
+    <div class="csss" align="center">
+      <button class="bx bx-group" id="createRoomBtn"> Create Group</button>
+      <button onclick="joinRoomWithInviteCode()" class="bx bx-plus"> Join Group</button>
+    </div><h3 style="color: white;">My Chats</h3>
+        <div id="roomList">
+            <!-- <div id="loadingSpinner" class="loading-spinner" align="center"> <br>
+              <div class="spinner"></div>
+            </div> -->
+            
+            <div id="roomList">
+              <div id="rooms">
+                <div id="loadingSpinner" class="loading-spinner" align="center"> <br>
+                  <div class="spinner"></div>
+                </div>
+              </div>
+            </div>
+
+           
+           
+          </div>
+        </div>
+    
+   <br><br><br><br><br>
+<script>
+  
+//  setInterval(() => {
+//   const time = new Date();
+//     document.getElementById('time').innerHTML =  time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',second: 'numeric', hour12: true })
+//  }, 1000);
+</script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>  
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>  
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+  <script src="JS/chat.js"></script>
+  <script src="JS/nav.js"></script>
+</body>
+</html>

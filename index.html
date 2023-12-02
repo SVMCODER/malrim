@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ᴍᴀʟʀɪᴍ</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body> 
+    <h1 align="center">ᴍᴀʟʀɪᴍ</h1>
+    <div id="loadingSpinner" class="loading-spinner" align="center"> <br>
+        <div class="spinner"></div>
+      </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <script>
+        var firebaseConfig = {
+    apiKey: "AIzaSyCOA_2bf_b1o1nXSHZO5Re5DjSD66Pa6MY",
+    authDomain: "https://raona0-default-rtdb.firebaseio.com",
+    projectId: "raona0",
+    storageBucket: "raona0.appspot.com",
+    messagingSenderId: "797719983777",
+    appId: "1:797719983777:web:d7ffca1316891b51ec62e0"
+  };
+ firebase.initializeApp(firebaseConfig)
+        firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+      window.location.replace('home.html')
+  } else {
+      window.location.replace('login.html')
+  }
+});
+
+    </script>
+    <style>
+        
+  
+  /* Style for the loading spinner */
+  .loading-spinner {
+    align-items: center;
+    justify-content: center;
+    margin-top: 50%;
+  }
+  
+  .spinner {
+    border: none;
+    border-radius: 50%;
+    border-top: 4px solid #9650ff;
+    width: 40px;
+    height: 40px;
+    animation: spin 1.4s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+  
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+        body {
+            font-size: 24px;
+            place-items: center;
+            display: grid;
+            color: rgb(255, 255, 255);
+            background: linear-gradient(90deg,rgb(48, 0, 88),rgb(81, 0, 128));
+        }
+        h1 {
+            margin-top: 40%;
+        }
+    </style>
+    <script src="JS/nav.js"></script>
+</body>
+</html>

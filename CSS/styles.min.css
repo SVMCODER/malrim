@@ -1,0 +1,353 @@
+
+
+*{
+    -moz-outline-style: none; /* For Firefox */
+    -webkit-tap-highlight-color: transparent; /* For WebKit/Blink-based browsers */
+  
+  }
+  html,body {
+    outline-color: #050505;
+    margin: 0;
+    user-select: none;
+    }
+    a{
+    text-decoration: none;
+    color: #ffffff;
+    }
+  body {
+    outline-color: #161616;
+    background-color: #010101;
+    color: rgb(255, 255, 255);
+  }
+
+  .tab-nav-container{
+    color: rgb(255, 255, 255);
+    background-color: #000000;
+    box-shadow: 0 3px 6px #000000, 0 3px 6px #000000;
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+  }
+  
+  .tab{
+    color: rgb(255, 255, 255);
+    border-radius:50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    padding: 20px 20px;
+    margin: 0 10px;
+    font-size: 1em;
+    box-shadow: none;
+  }
+  .tab i{
+    font-size: 1em;
+  }
+  
+  .tab p{
+    font-weight:bold;
+    overflow: hidden;
+    max-width:0;
+  }
+  .tab.active p{
+    overflow: hidden;
+  }
+  .tab.active{
+    color: #0034d1;
+  }
+  .tab.active.yellow{
+    background-color: rgba(230, 169, 25, 0.2);
+    color: rgba(230, 169, 25, 1);
+  }
+  .tab.active.teal{
+    background-color: rgba(28, 150, 162, 0.2);
+    color: rgba(28, 150, 162, 1);
+  }
+  .views-container {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .liked {
+    color: #ff004c;
+    animation: pulse 1s;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(2.5);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .like-container {
+    display: inline-block;
+  }
+  
+  .interaction-container {
+    margin-top: 10px;
+  }
+  
+  .like-container i {
+    margin-right: 5px;
+  }
+  .views-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .views-container i {
+    margin-right: 5px;
+  }
+  
+  .profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  button {
+    width: fit-content;
+    border: none;
+    padding: 0.6em 1em;
+    border-radius: 4px;
+    margin: 10px 0;
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 17px;
+    cursor: pointer;
+    }
+  
+  .container {
+    box-shadow: rgb(0, 0, 0) 0px 1px 4px;
+    background-color: #050505;
+    width: fit-content;
+    height: auto;
+    width: 90%;
+    padding-bottom: 30px;
+    color: rgb(255, 255, 255);
+    padding: 0.6em 1em;
+  }
+  .head{
+      color: rgb(255, 255, 255);
+      background-color: #000000;
+      display: flex;
+      position: fixed;
+      border-bottom: 0.2px solid rgb(0, 0, 0) ;
+      justify-content: space-between;
+      width: 100%;
+      left: 0;
+      top: 0;
+      padding: 0.1em 1em;
+  }
+  .right {
+    float: right;
+    padding: 0em 1.5em;
+  }
+  img {
+    width: 70%;
+    height: auto;
+  }
+  input {
+    padding: 1em 1em;
+    border: none;
+    width: 90%;
+    outline-color: #000000;
+    background-color: #000000;
+    color: rgb(255, 255, 255);
+  }
+  textarea {
+    padding: 1em 1em;
+    border: none;
+    outline-color: #2300a1;
+    background-color: #000000;
+    color: rgb(255, 255, 255);
+    resize: none;
+    width: 90%;
+    height: 300px;
+  }  #blogContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+  }
+  .author-info-container {
+    padding: 0.6em 1em;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .author-name {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .delete-icon {
+    margin-left: 20px;
+    font-size: 16px;
+    color: #888;
+    cursor: pointer;
+  }
+
+
+ .times {
+    text-align: right;
+ }
+  
+  .usernameContainer {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 90%; /* Adjust the max-width as needed */
+  }
+  .timestamp {
+    color: rgb(100, 100, 100);
+  }
+
+
+
+  
+
+*{
+    -moz-outline-style: none; /* For Firefox */
+    -webkit-tap-highlight-color: transparent; /* For WebKit/Blink-based browsers */
+  
+  }
+  html,body {
+    outline-color: rgb(98, 0, 255);
+    height: 94%;
+    margin: 0;
+    user-select: none;
+    }
+    a{
+    text-decoration: none;
+    color: #ffffff;
+    }
+  body {
+    background-color: #060018;
+    color: rgb(255, 255, 255);
+  }
+  
+  .tab-nav-container{
+    color: rgb(255, 255, 255);
+    background-color: #00010c;
+    box-shadow: 0 3px 6px #00021d, 0 3px 6px #00021d;
+    display: flex;
+    justify-content: space-around;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+  }
+  
+  .tab{
+    color: rgb(255, 255, 255);
+    border-radius:50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    padding: 20px 20px;
+    margin: 0 10px;
+    font-size: 1em;
+    box-shadow: none;
+  }
+  .tab i{
+    font-size: 1em;
+  }
+  
+  .tab p{
+    font-weight:bold;
+    overflow: hidden;
+    max-width:0;
+  }
+  .tab.active p{
+    overflow: hidden;
+  }
+  .tab.active{
+    color: #8800d1;
+  }
+  
+  .liked {
+    color: #ff004c;
+    animation: pulse 1s;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(2.5);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  
+  button {
+    width: fit-content;
+    border: none;
+    padding: 0.6em 1em;
+    border-radius: 4px;
+    background-color: #160053;
+    color: #ffffff;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: rgb(21, 0, 143) 0px 1px 4px;
+    }
+  .csss {
+    padding: 0.6em 1em;
+    margin-bottom:6px;
+    justify-content: space-around;
+    display: flex;
+  }
+  .container {
+    box-shadow: rgb(9, 0, 59) 0px 1px 4px;
+    background-color: #15004e;
+    width: 80%;
+    border-radius: 6px;
+    height: auto;
+    justify-content: space-around;
+    display: flex;
+    margin-bottom: 10px;
+    color: rgb(255, 255, 255);
+    padding: 0.6em 1em;
+  }
+  .head{
+      color: rgb(255, 255, 255);
+      background-color: #00010c;
+      display: flex;
+      position: fixed;
+      border-bottom: 0.2px solid #00010c ;
+      justify-content: space-between;
+      width: 100%;
+      left: 0;
+      top: 0;
+      padding: 0.1em 1em;
+  }
+  .right i {
+    margin-right: 5px;
+  }
+  .right {
+    margin-right: 5px;
+    float: right;
+    padding: 0em 1.5em;
+  }
+  img {
+    width: 70%;
+    height: auto;
+  }
+  
