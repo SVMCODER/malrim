@@ -35,23 +35,32 @@ body {
   .message {
     display: flex;
     flex-direction: column;
-    
     max-width: 60%;
     width: 60%;
     padding: 10px;
     margin-bottom: 8px;
-    border-radius: 4px;
+    
+    
     word-break: break-word !important; /* Add !important to override any conflicting styles */
+  }
+  .message.typing-indicator {
+    border-radius: 18px;
+    align-self: flex-start;
+    color: rgb(255, 255, 255);
+    background-image: linear-gradient(90deg,rgb(34, 38, 102),rgb(60, 20, 112));
+    border: 1px solid #535353;
+    border-bottom-left-radius: 0%;
+    font-style: italic;
   }
   
   
 .usernameContainer{
   display: flex;
-  justify-content: space-between;
 }
 .uname {
   font-weight: bold;
-  font-size: 14px;
+  font-size: 15px;
+  margin-left: 10px;
 }
 
 .text {
@@ -60,26 +69,28 @@ body {
 }
 
 .times {
+  margin-top: 5px;
   font-size: 12px;
   color: #bbbbbb;
 }
   .message.sent {
+    border-radius: 18px;
     align-self: flex-end;
-    background-image: linear-gradient(90deg,rgb(71, 38, 114),rgb(75, 77, 119));
+    background-image: linear-gradient(90deg,rgb(60, 20, 112),rgb(34, 38, 102));
     color: #f3f3f3;
     border: 1px solid #535353;
+    border-bottom-right-radius: 0%;
   }
   
   .message.received {
+    border-radius: 18px;
     align-self: flex-start;
     color: rgb(255, 255, 255);
-    background-image: linear-gradient(90deg,rgb(75, 77, 119),rgb(71, 38, 114));
+    background-image: linear-gradient(90deg,rgb(34, 38, 102),rgb(60, 20, 112));
     border: 1px solid #535353;
+    border-bottom-left-radius: 0%;
   }
   
-.messageHeader {
-  justify-content: space-between;
-}
 
 
 
@@ -94,7 +105,6 @@ body {
   
   .username {
     font-weight: bold;
-    margin-right: auto;
   }
   
   .text {
@@ -154,11 +164,11 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
   margin-right: 5px;
-  max-width: 50%; /* Adjust the max-width as needed */
+  max-width: auto; /* Adjust the max-width as needed */
 }
 .times {
   text-align: right;
-  color: #7e7e7e;
+  color: #b3b3b3;
   right: 10px;
 }
  /* Style for the loading spinner */
@@ -187,10 +197,18 @@ body {
   }
 }
 .sysmsg {
-    color: #f3f3f3;
-    padding: 0.6em 1em;
-    margin-bottom: 5px;
-    margin-top: 5px;
+  border-radius: 18px;
+  align-self: center;
+  color: rgb(212, 212, 212);
+  background-image: linear-gradient(90deg,rgb(83, 37, 167),rgb(111, 0, 255));
+  border: 1px solid #535353;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 16px;
+  padding: 0.6em 1em;
+  width: 80%;
+  margin-top: 5px;
+  text-align: center;
+  margin-bottom: 14px;
 }
 .file-input-label {
   display: inline-block;
@@ -208,7 +226,7 @@ button {
 
 /* Style for user profile image */
 .profile-image {
-  background-color: #8c00ff;
+  background-color: #131313;
   width: 20px; /* Adjust the width as needed */
   height: 20px; /* Adjust the height as needed */
   border-radius: 50%; /* Make the image round */
