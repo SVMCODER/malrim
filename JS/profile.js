@@ -27,7 +27,7 @@ auth.onAuthStateChanged(async (user) => {
     const userEmail = document.getElementById('user-email');
     const bioElement = document.getElementById('bio');
 
-    profilePicture.src = user.photoURL || 'https://wallpapers.com/images/hd/cool-pictures-fz4qiypiy3ob4vix.jpg';
+    profilePicture.src = user.photoURL || 'MEDIA/user.jpg';
     
     if (user.displayName == 'BTS ARMY 💜 아니카') {
       verifiedtick.innerHTML = `
@@ -43,6 +43,7 @@ auth.onAuthStateChanged(async (user) => {
           <h4 id="tickk" class="bx bx-check" ></h4>
           
       `;
+      document.getElementById('editbtn').style.display = 'block'
       document.getElementById('role').innerHTML = "Developer"
     }
     else if (user.displayName == 'Ananya Srivastava') {
@@ -60,6 +61,7 @@ auth.onAuthStateChanged(async (user) => {
           <h4 id="tickk" class="bx bx-check" ></h4>
           
       `;
+      
       document.getElementById('role').innerHTML = "Founder"
     }
     else if (user.displayName == 'Aviral Tripathi') {

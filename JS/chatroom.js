@@ -51,7 +51,6 @@ function formatTimestamp(timestamp) {
     return `${years} years ago`;
   }
 }
-
 const chatContainer = document.getElementById('chatContainer');
 const messagesDiv = document.getElementById('messages');
 const messageForm = document.getElementById('messageForm');
@@ -69,7 +68,6 @@ function leaveGroup(groupCode) {
     // Use SweetAlert to confirm leaving the group
     Swal.fire({
       title: 'Leave Group',
-      text: 'Are you sure you want to leave the group?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
@@ -83,7 +81,7 @@ function leaveGroup(groupCode) {
         groupRef.remove()
           .then(() => {
             console.log(`Successfully left group ${groupCode}`);
-            sendSystemMessage(groupCode, `${user.displayName} left the group`);
+            sendSystemMessage(groupCode, `😟 ${user.displayName} left the chat`);
             window.location.replace('home.html')
           })
           .catch((error) => {
@@ -96,7 +94,6 @@ function leaveGroup(groupCode) {
     // Handle the case where the user is not authenticated
   }
 }
-
 // Get the current user's username from Firebase Authentication
 let username = ''; // Global variable to store the username
 let touchStartTime; // Variable to store the start time of the touch event for long-press detection
@@ -105,6 +102,11 @@ firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     username = user.displayName || 'Anonymous'; // Use the display name, or set to 'Anonymous' if not available
     localStorage.setItem('icon',user.photoURL);
+    console.log(user.photoURL)
+    if (localStorage.getItem('icon') == 'null') {
+      localStorage.setItem('icon', 'MEDIA/user.jpg');
+      console.log('Niggas')
+  }
   }
 });
 
@@ -122,9 +124,7 @@ function handleContextMenu(event, messageDiv, messageKey, messageUsername, messa
   // Check if the current user is the sender of the message
   if (messageUsername === username) {
     Swal.fire({
-      title: 'Delete Message?',
-      text: 'Are you sure you want to delete this message?',
-      icon: 'warning',
+      title: 'Delete Message',
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
@@ -134,14 +134,7 @@ function handleContextMenu(event, messageDiv, messageKey, messageUsername, messa
       if (result.isConfirmed) {
         // Delete the message from the database
         messagesRef.child(messageKey).remove()
-          .then(() => {
-            Swal.fire({
-              title: 'Message Deleted!',
-              icon: 'success',
-              timer: 1500,
-              showConfirmButton: false
-            });
-          })
+          
           .catch((error) => {
             console.error('Error deleting message:', error);
             Swal.fire({
@@ -170,8 +163,6 @@ function scrollChatToBottom()
   function handleDeleteMessage(messageDiv) {
     Swal.fire({
       title: 'Delete Message?',
-      text: 'Are you sure you want to delete this message?',
-      icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
@@ -277,12 +268,12 @@ function refreshChat() {
         // Create the message content
         const messageContentDiv = document.createElement('div');
         messageContentDiv.classList.add(message.isSystemMessage ? 'h' : 'messageContent');
-        const userProfileImage = `${localStorage.getItem('icon') || ''}`;
+        const userProfileImage = `${localStorage.getItem('icon') || 'MEDIA/user.jpg'}`;
         const profileImageHTML = `<img src="${userProfileImage}" class="profile-image" >`;
 
         if (message.isSystemMessage) {
           messageContentDiv.innerHTML = `
-            <div class="bx bxs-bell">${message.text} - ${message.formattedTimestamp}</div>
+            <div>${message.text}</div>
           `;
         } else {
           messageContentDiv.innerHTML = `
@@ -292,10 +283,11 @@ function refreshChat() {
                   <div class="usernameContainer" onclick="redirectToUserProfile('${message.userId}')">
                     ${profileImageHTML}
                     <div class="uname">${displayedUsername}</div>
-                    <div class="times">${message.formattedTimestamp}</div>
+                   
                   </div>
                 </div>
                 <div class="text">${message.text}</div>
+                <div class="times">${message.formattedTimestamp}</div>
               </div>
             </div>
           `;
@@ -329,7 +321,7 @@ function refreshChat() {
 
 function redirectToUserProfile(userId) {
   // Redirect to user.html with the user's ID
-  window.location.href = `user.html?userid=${userId}`;
+  window.location.href = `profile.html?userid=${userId}`;
 }
 
 
@@ -359,30 +351,109 @@ function redirectToUserProfile(userId) {
   const messageInput = document.getElementById('messageText');
   const sendButton = document.getElementById('sendButton');
   const MAX_MESSAGE_LENGTH = 2500;
+  let isTyping = false;
 
-  // Function to handle sending a new message
-  function sendMessage() {
-    const messageText = messageInput.value.trim();
-    if (messageText !== '' && messageText.length <= MAX_MESSAGE_LENGTH) {
-      // Truncate the message to the maximum allowed length
-      const truncatedMessage = messageText.slice(0, MAX_MESSAGE_LENGTH);
-
-      const newMessage = {
-        username: username,
-        timestamp: firebase.database.ServerValue.TIMESTAMP,
-        text: truncatedMessage
-      };
-
-      // Save the new message to the database
-      messagesRef.push(newMessage);
-
-      // Clear the message input after sending
-      messageInput.value = '';
-      scrollChatToBottom();
-      // Update the send button state after sending
-      updateSendButtonState();
+  function updateTypingStatus(isTyping) {
+    const user = firebase.auth().currentUser;
+    if (user && roomId) {
+      const typingRef = firebase.database().ref(`chatrooms/${roomId}/typing/${user.uid}`);
+      typingRef.set(isTyping)
+        .then(() => console.log('Typing status updated successfully'))
+        .catch((error) => console.error('Error updating typing status:', error));
     }
   }
+  
+  function displayTypingIndicator(userId, isTyping) {
+    const typingIndicatorId = `typing-indicator-${userId}`;
+    const typingIndicatorDiv = document.getElementById(typingIndicatorId);
+  
+    // Check if the user is typing and it's not the current user
+    if (isTyping && userId !== firebase.auth().currentUser.uid) {
+      if (!typingIndicatorDiv) {
+        const newTypingIndicatorDiv = document.createElement('div');
+        newTypingIndicatorDiv.classList.add('message', 'typing-indicator');
+        newTypingIndicatorDiv.setAttribute('id', typingIndicatorId);
+        newTypingIndicatorDiv.innerHTML = `Typing...`;
+        messagesDiv.appendChild(newTypingIndicatorDiv);
+        scrollChatToBottom();
+      }
+    } else {
+      if (typingIndicatorDiv) {
+        typingIndicatorDiv.remove();
+        scrollChatToBottom();
+      }
+    }
+  }
+  
+  // Event listener for input to detect when the user is typing
+  messageInput.addEventListener('input', () => {
+    isTyping = messageInput.value.trim() !== '';
+    updateTypingStatus(isTyping);
+  });
+  
+  // Listen for changes in typing status for other users
+  const typingRef = firebase.database().ref(`chatrooms/${roomId}/typing`);
+  typingRef.on('child_changed', (snapshot) => {
+    const userId = snapshot.key;
+    const isUserTyping = snapshot.val();
+    displayTypingIndicator(userId, isUserTyping);
+  });
+
+// Function to send "seen" status to the database
+function markMessageAsSeen(messageKey) {
+  const user = firebase.auth().currentUser;
+  if (user && roomId) {
+    const seenByRef = firebase.database().ref(`chatrooms/${roomId}/messages/${messageKey}/seenBy`);
+    seenByRef.child(user.uid).set(true);
+  }
+}
+
+// Listen for changes in "seenBy" field for a message
+messagesRef.on('child_changed', (snapshot) => {
+  const messageKey = snapshot.key;
+  const seenBy = snapshot.val().seenBy || {};
+
+  // Display seenBy data in the UI
+  displaySeenBy(messageKey, seenBy);
+});
+
+// Function to display seenBy data in the UI
+function displaySeenBy(messageKey, seenBy) {
+  // Implement your logic to show seenBy data in the UI
+  // You can use messageKey to identify the message
+  // and seenBy to determine which users have seen the message
+}
+
+function sendMessage() {
+  const messageText = messageInput.value.trim();
+  if (messageText !== '' && messageText.length <= MAX_MESSAGE_LENGTH) {
+    const truncatedMessage = messageText.slice(0, MAX_MESSAGE_LENGTH);
+
+    const newMessage = {
+      username: username,
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
+      text: truncatedMessage,
+      seenBy: { [firebase.auth().currentUser.uid]: true }
+    };
+
+    messagesRef.push(newMessage);
+
+    messageInput.value = '';
+    scrollChatToBottom();
+    updateSendButtonState();
+    displayTypingIndicator(firebase.auth().currentUser.uid, false);
+  }
+}
+
+
+// Function to update the "seenBy" field when a message is opened
+function markMessageAsOpened(messageKey) {
+  const user = firebase.auth().currentUser;
+  if (user && roomId) {
+    const seenByRef = firebase.database().ref(`chatrooms/${roomId}/messages/${messageKey}/seenBy`);
+    seenByRef.child(user.uid).set(true);
+  }
+}
 
   // Listen for click event on the send button
   sendButton.addEventListener('click', sendMessage);
@@ -447,3 +518,82 @@ function sendSystemMessage(groupCode, message) {
       console.error('Error sending system message:', error);
     });
 }
+function profile() {
+  window.location.href = 'profile.html'
+}
+
+function settings() {
+  window.location.href = 'settings.html'
+}
+function home() {
+  window.location.href = 'home.html'
+}
+if (localStorage.getItem('m') == 'On') {
+  document.getElementById('moon').style.color = 'gray'
+}
+else if (localStorage.getItem('m') == 'Off') {
+  document.getElementById('moon').style.color = 'yellow'
+}
+else if (localStorage.getItem('h') == 'On') {
+  document.getElementById('heart').style.color = 'rgb(255, 0, 43) '
+}
+else if (localStorage.getItem('h') == 'Off') {
+  document.getElementById('heart').style.color = 'white'
+}
+function heart() {
+  if (localStorage.getItem('h') == 'Off') {
+      localStorage.setItem('h','On')
+      localStorage.setItem('hm','You can now chat with your partner')
+      
+      if (localStorage.getItem('h') == 'On') {
+          document.getElementById('heart').style.color = 'rgb(255, 0, 43) '
+      }
+      else if (localStorage.getItem('h') == 'Off') {
+          document.getElementById('heart').style.color = 'white'
+      }
+  }
+  else if (localStorage.getItem('h') == 'On') {
+      localStorage.setItem('h','Off')
+      localStorage.setItem('hm','Turn it on again for better love experience')
+      if (localStorage.getItem('h') == 'On') {
+          document.getElementById('heart').style.color = 'rgb(255, 0, 43) '
+      }
+      else if (localStorage.getItem('h') == 'Off') {
+          document.getElementById('heart').style.color = 'white'
+      }
+  }
+  
+  Swal.fire({
+      icon: "success",
+      title: "Turned "+localStorage.getItem('h'),
+      text: localStorage.getItem('hm')
+    });
+}
+function moon() {
+  if (localStorage.getItem('m') == 'Off') {
+      localStorage.setItem('m','On')
+      localStorage.setItem('mm','You are now in quiet mode')
+      if (localStorage.getItem('m') == 'On') {
+          document.getElementById('moon').style.color = 'gray'
+      }
+      else if (localStorage.getItem('m') == 'Off') {
+          document.getElementById('moon').style.color = 'yellow'
+      }
+  }
+  else if (localStorage.getItem('m') == 'On') {
+      localStorage.setItem('m','Off')
+      localStorage.setItem('mm','You will now receive messages from others')
+      if (localStorage.getItem('m') == 'On') {
+          document.getElementById('moon').style.color = 'gray'
+      }
+      else if (localStorage.getItem('m') == 'Off') {
+          document.getElementById('moon').style.color = 'yellow'
+      }
+  }
+  
+  Swal.fire({
+      icon: "success",
+      title: "Turned "+localStorage.getItem('m'),
+      text: localStorage.getItem('mm')
+    });
+} 

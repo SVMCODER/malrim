@@ -191,25 +191,24 @@ window.addEventListener('load', () => {
               async () => {
                 // Get the image URL after upload
                 const groupImage = await storageRef.getDownloadURL();
-  
+                const timestamp = firebase.firestore.FieldValue.serverTimestamp();
                 // Update the database with the group details
                 await firebase.database().ref('chatrooms/' + groupCode).set({
                   name: groupName,
                   code: groupCode,
+                  creationDate: timestamp,
                   image: groupImage || 'MEDIA/image.jpg',
                   members: {
                     [firebase.auth().currentUser.uid]: true,
                   },
                 });
-  
+                localStorage.setItem(groupCode,timestamp)
                 // Close the progress popup
                 progressSwal.close();
   
                 // Show the success popup
                 Swal.fire({
-                  icon: 'success',
                   title: 'Group Created!',
-                  text: 'Invite your friends',
                   inputValue: `Group Code: ${groupCode}`,
                   showCancelButton: true,
                   confirmButtonText: 'Copy Invite Code',
@@ -261,11 +260,27 @@ window.addEventListener('load', () => {
   //     });
   //   }
   // }
+
+  function copycode(groupCode,groupName) {
+
+    const input = document.createElement('input');
+                    document.body.appendChild(input);
+                    input.value = `Group Code: ${groupCode}`;
+                    input.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(input);
+                    Swal.fire({
+                      title: 'Copied',
+                      showConfirmButton: false
+                      
+                    })
+
+  }
   function addRoomToList(groupCode, groupName, groupImage) {
     const roomList = document.getElementById('roomList');
 
     const listItemHtml = `
-      <div class="user" data-group-code="${groupCode}">
+    <div class="user" data-group-code="${groupCode}">
         <div class="imgd" onclick="window.location.href='chatroom.html?id=${groupCode}'">
           <img src="${groupImage || 'MEDIA/bg.jpg'}" class="profile-image" >
         </div>
@@ -282,7 +297,6 @@ window.addEventListener('load', () => {
     // Fetch and display the latest message
     fetchLatestMessage(groupCode);
   }
-
   function fetchLatestMessage(groupCode) {
     const messagesRef = firebase.database().ref(`chatrooms/${groupCode}/messages`);
 
@@ -296,14 +310,14 @@ window.addEventListener('load', () => {
           const msgInfoElement = document.querySelector(`.user[data-group-code="${groupCode}"] #msg-info`);
 
           if (msgInfoElement) {
-            msgInfoElement.textContent = latestMessage.text;
+            msgInfoElement.textContent = 'Tap to chat';
           }
         } else {
           // No messages in the group
           const msgInfoElement = document.querySelector(`.user[data-group-code="${groupCode}"] #msg-info`);
 
           if (msgInfoElement) {
-            msgInfoElement.textContent = 'No messages in this group';
+            msgInfoElement.textContent = 'Tap to Chat';
           }
         }
       })
@@ -311,8 +325,6 @@ window.addEventListener('load', () => {
         console.error('Error fetching latest message:', error);
       });
   }
-
-
   function deleteGroup(groupCode, groupName) {
     Swal.fire({
       title: 'Delete Group',
@@ -369,7 +381,7 @@ function joinRoomWithInviteCode() {
                 chatroomsRef.child(value).child('members').child(userId).set(true)
                   .then(() => {
                     // Sending the system message
-                    return sendSystemMessage(value, `${userDisplayName} joined the group`);
+                    return sendSystemMessage(value, `😊 ${userDisplayName} joined the chat`);
                   })
                   .then(() => {
                     // Both set and sending system message succeeded
