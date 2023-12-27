@@ -35,7 +35,7 @@ auth.onAuthStateChanged(async (user) => {
           <h4 id="tickk" class="bx bx-check" ></h4>
           
       `;
-      document.getElementById('role').innerHTML = "Developer's Wife ❤"
+      document.getElementById('role').innerHTML = "Developer's Lifeline 🥰"
     }
     else if (user.displayName == 'Nekko Shaurya') {
       verifiedtick.innerHTML = `
